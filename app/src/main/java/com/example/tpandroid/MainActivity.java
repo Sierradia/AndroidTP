@@ -3,7 +3,6 @@ package com.example.tpandroid;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -11,13 +10,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,61 +25,41 @@ import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 
-import static com.example.tpandroid.R.drawable.ic_launcher_background;
-
 public class MainActivity extends AppCompatActivity {
 
     private static final int PICK_FROM_GALLERY = 1;
+
+    private ArrayList<String> imageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = new Button(this);
-        button.setText("Press to scan");
-        Canvas canvas = new Canvas();
-        Paint paint = new Paint();
-        //ImageView imageView = new ImageView(this);
-        //TextView text = new TextView(this);
-        RelativeLayout relativeLayout = new RelativeLayout(this);
-
-        //relativeLayout.addView(text);
-        //relativeLayout.addView(imageView);
-        relativeLayout.addView(button);
-        //relativeLayout.addView(canvas);
-        setContentView(new MyView(this));
-
-        //GALLERY_REQUEST_CODE= 10;
-
-        //imageView = findViewById(R.id.imageView);
-        //GALLERY_REQUEST_CODE= 10;
         getAllShownImagesPath();
+        setContentView(new MyView(this));
     }
 
     public class MyView extends View {
+        Paint paint = new Paint();
         public MyView(Context context) {
             super(context);
-            // TODO Auto-generated constructor stub
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
-            // TODO Auto-generated method stub
             super.onDraw(canvas);
-            /*int x = getWidth();
-            int y = getHeight();
-            int radius;
-            radius = 100;
-            Paint paint = new Paint();
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(Color.WHITE);
-            canvas.drawPaint(paint);
-            // Use Color.parseColor to define HTML colors
-            paint.setColor(Color.parseColor("#CD5C5C"));
-            canvas.drawCircle(x / 2, y / 2, radius, paint);*/
-            Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), ic_launcher_background);
-            canvas.drawBitmap(bitmap1,0,0, null);
+
+            /*Drawable bitmap1 = BitmapDrawable.createFromPath(imageList.get(0));
+            bitmap1.draw(canvas);*/
+            paint.setColor(Color.BLACK);
+            paint.setStrokeWidth(3);
+            canvas.drawRect(30, 30, 80, 80, paint);
+            paint.setStrokeWidth(0);
+            paint.setColor(Color.CYAN);
+            canvas.drawRect(33, 60, 77, 77, paint );
+            paint.setColor(Color.YELLOW);
+            canvas.drawRect(33, 33, 77,60, paint );
 
         }
     }
@@ -106,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         int column_index;
         String path;
         String sortOrder;
-        ArrayList<String> imageList = new ArrayList<>();
+        imageList = new ArrayList<>();
         uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         String[] projection = {MediaStore.MediaColumns.DATA};
         sortOrder = MediaStore.Images.ImageColumns.DATE_ADDED + " DESC";
@@ -123,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
             TextView text = findViewById(R.id.coucou);
             text.setText("Nombre d'images " + imageList.size());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
