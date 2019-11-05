@@ -2,12 +2,21 @@ package com.example.tpandroid;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
+
+import static com.example.tpandroid.R.drawable.ic_launcher_background;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,10 +35,55 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Button button = new Button(this);
+        button.setText("Press to scan");
+        Canvas canvas = new Canvas();
+        Paint paint = new Paint();
+        //ImageView imageView = new ImageView(this);
+        //TextView text = new TextView(this);
+        RelativeLayout relativeLayout = new RelativeLayout(this);
+
+        //relativeLayout.addView(text);
+        //relativeLayout.addView(imageView);
+        relativeLayout.addView(button);
+        //relativeLayout.addView(canvas);
+        setContentView(new MyView(this));
+
+        //GALLERY_REQUEST_CODE= 10;
+
         //imageView = findViewById(R.id.imageView);
         //GALLERY_REQUEST_CODE= 10;
         getAllShownImagesPath();
     }
+
+    public class MyView extends View {
+        public MyView(Context context) {
+            super(context);
+            // TODO Auto-generated constructor stub
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            // TODO Auto-generated method stub
+            super.onDraw(canvas);
+            /*int x = getWidth();
+            int y = getHeight();
+            int radius;
+            radius = 100;
+            Paint paint = new Paint();
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.WHITE);
+            canvas.drawPaint(paint);
+            // Use Color.parseColor to define HTML colors
+            paint.setColor(Color.parseColor("#CD5C5C"));
+            canvas.drawCircle(x / 2, y / 2, radius, paint);*/
+            Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), ic_launcher_background);
+            canvas.drawBitmap(bitmap1,0,0, null);
+
+        }
+    }
+
 
     public void getAllShownImagesPath() {
 
