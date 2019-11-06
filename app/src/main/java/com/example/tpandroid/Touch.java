@@ -9,16 +9,18 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-public class Touch {
+public class Touch extends View{
     private static final int MAX_POINTERS = 5;
     private float mScale = 1f;
     private GestureDetector mGestureDetector;
     private ScaleGestureDetector mScaleGestureDetector;
 
-    private Pointer[] mPointers = new Pointer[MAX_POINTERS];
-
     private Paint mPaint;
     private float mFontSize;
+
+    public Touch(Context context) {
+        super(context);
+    }
 
     public class ZoomGesture extends GestureDetector.SimpleOnGestureListener {
         private boolean normal = true;

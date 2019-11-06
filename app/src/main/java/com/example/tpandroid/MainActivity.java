@@ -5,19 +5,13 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,32 +28,56 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         getAllShownImagesPath();
         setContentView(new MyView(this));
+
     }
 
     public class MyView extends View {
-        Paint paint = new Paint();
+
         public MyView(Context context) {
             super(context);
         }
 
         @Override
-        protected void onDraw(Canvas canvas) {
+        protected void onDraw(Canvas canvas){
             super.onDraw(canvas);
 
-            /*Drawable bitmap1 = BitmapDrawable.createFromPath(imageList.get(0));
-            bitmap1.draw(canvas);*/
-            paint.setColor(Color.BLACK);
-            paint.setStrokeWidth(3);
-            canvas.drawRect(30, 30, 80, 80, paint);
-            paint.setStrokeWidth(0);
-            paint.setColor(Color.CYAN);
-            canvas.drawRect(33, 60, 77, 77, paint );
-            paint.setColor(Color.YELLOW);
-            canvas.drawRect(33, 33, 77,60, paint );
+            int largeurPhotos = 3;
+            int compteur = 0;
+            int i=0,j=0;
+            int widthPhone = getWidth();
+
+            if (imageList != null) {
+                while (compteur < imageList.size() && compteur < 10) {
+
+                    Drawable d = Drawable.createFromPath(imageList.get(i * 3 + j));
+                    d.setBounds(widthPhone * j / 3, widthPhone * i / 3, widthPhone * (j + 1) / 3, widthPhone * (i + 1) / 3);
+                    d.draw(canvas);
+
+                    j++;
+                    if (j >= largeurPhotos) {
+                        i++;
+                        j = 0;
+                    }
+
+                    compteur++;
+                }
+            }
+
+            /*
+            Drawable d1 = Drawable.createFromPath(imageList.get(0));
+            Drawable d2 = Drawable.createFromPath(imageList.get(1));
+            Drawable d3 = Drawable.createFromPath(imageList.get(2));
+
+            d1.setBounds(0, 0, getWidth()*1/3, getWidth()*1/3);
+            d2.setBounds(getWidth()*1/3, 0, getWidth()*2/3, getWidth()*1/3);
+            d3.setBounds(getWidth()*2/3, 0, getWidth()*3/3, getWidth()*1/3);
+            d1.draw(canvas);
+            d2.draw(canvas);
+            d3.draw(canvas);
+*/
 
         }
     }
@@ -101,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 cursor.close();
             }
-            TextView text = findViewById(R.id.coucou);
-            text.setText("Nombre d'images " + imageList.size());
 
         } catch (Exception e) {
             e.printStackTrace();
