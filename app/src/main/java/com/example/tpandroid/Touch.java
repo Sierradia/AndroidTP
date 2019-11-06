@@ -53,7 +53,6 @@ public class Touch extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int largeurPhotos = 3;
         int compteur = 0;
         int widthPhone = getWidth();
 
@@ -73,10 +72,10 @@ public class Touch extends View {
 
             int i = 0, j = 0;
 
-            while (compteur < imageList.size() && compteur < 5) {
+            while (compteur < imageList.size() && compteur < 50) {
 
 
-                Drawable d1 = Drawable.createFromPath(imageList.get(i * 3 + j));
+                Drawable d1 = Drawable.createFromPath(imageList.get(i * nbCols + j));
                 Bitmap bitmap = ((BitmapDrawable) d1).getBitmap();
 
                 if (bitmap != null) {
@@ -88,7 +87,7 @@ public class Touch extends View {
 
 
                 j++;
-                if (j >= largeurPhotos) {
+                if (j >= nbCols) {
                     i++;
                     j = 0;
                 }
